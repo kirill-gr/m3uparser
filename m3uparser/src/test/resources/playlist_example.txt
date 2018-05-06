@@ -1,0 +1,9 @@
+#EXTM3U deinterlace=1 m3uautoload=1
+url-tvg="http://example.com"
+tvg-shift=+4 cache=asdf
+#EXTINF:-1 tvg-name="Channel_1"
+tvg-shift=a0 aspect-ratio=16:9,Channel 1
+http://1.2.3.4:1234/udp/4.3.2.1:5678
+#EXTINF:-1 tvg-name="Channel_2"
+tvg-shift=a0 aspect-ratio=16:9,Channel 2
+C:\Channel 2\stream.m4v

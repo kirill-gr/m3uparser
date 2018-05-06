@@ -1,0 +1,3 @@
+#EXTM3U deinterlace=1 m3uautoload=1
+url-tvg="http://example.com"
+tvg-shift=+4 cache=asdf
