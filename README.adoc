@@ -1,0 +1,6 @@
+= M3uParser
+
+M3uParser provides Java API around an M3U playlist.
+
+image:https://travis-ci.org/kromkrom/m3uparser.svg?branch=master["Build Status", link="https://travis-ci.org/kromkrom/m3uparser"]
+image:https://api.bintray.com/packages/krom/maven/m3uparser/images/download.svg[link="https://bintray.com/krom/maven/m3uparser/_latestVersion"]
