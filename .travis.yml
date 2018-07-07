@@ -11,3 +11,14 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+before_deploy:
+  - ./gradlew sourceJar
+  - ./gradlew generatePomFileForMavenPublication
+deploy:
+  provider: bintray
+  file: "bintray.json"
+  user: $BINTRAY_API_USER
+  key: $BINTRAY_API_KEY
+  skip_cleanup: true
+  on:
+    condition: $TRAVIS_TAG = release*

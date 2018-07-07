@@ -1,0 +1,21 @@
+{
+  "package": {
+    "name": "m3uparser",
+    "repo": "maven",
+    "subject": "krom",
+    "vcs_url": "https://github.com/kromkrom/m3uparser.git",
+    "licenses": ["MIT"],
+    "public_download_numbers": false,
+    "public_stats": false
+  },
+
+  "version": {
+    "name": "1.1"
+  },
+
+  "files":
+  [
+    {"includePattern": "build/libs/(.*)", "uploadPattern": "ru/grushetsky/m3uparser/1.1/$1"}
+  ],
+  "publish": true
+}
