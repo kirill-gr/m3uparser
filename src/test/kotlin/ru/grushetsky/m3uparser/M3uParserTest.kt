@@ -47,7 +47,7 @@ class M3uParserTest {
         ":= \nsafe_name",
         "\"quoted name\"\nfoo"
     ])
-    fun `entry basic infor parsed correctly`(entryBasicInfo: String) {
+    fun `entry basic info parsed correctly`(entryBasicInfo: String) {
         val entryNameParser = getParser(entryBasicInfo, FREE_TEXT_MODE).enrty_basic_info()
         val (entryName, entryUri) = entryBasicInfo.split("\n")
 
@@ -65,16 +65,24 @@ class M3uParserTest {
         assertThat(entryParser.length().text).isEqualTo("-1")
     }
 
-    @Test
-    fun `file header parsed correctly`() {
-        val headerParser = getParser(getResourceAsString("/header_example.txt")).file_header()
+    @ParameterizedTest
+    @CsvSource(
+            "header_example.txt, 5",
+            "playlist_no_header_params.txt, 0"
+    )
+    fun `file header parsed correctly`(filePath: String, paramNumber: Int) {
+        val headerParser = getParser(getResourceAsString("/$filePath")).file_header()
 
-        assertThat(headerParser.parameters().parameter().size).isEqualTo(5)
+        assertThat(headerParser.parameters().parameter().size).isEqualTo(paramNumber)
     }
 
-    @Test
-    fun `playlist elements detected correctly`() {
-        val fileParser = getParser(getResourceAsString("/playlist_example.txt")).file()
+    @ParameterizedTest
+    @CsvSource(
+            "playlist_example.txt",
+            "playlist_no_header_params.txt"
+    )
+    fun `playlist elements detected correctly`(filePath: String) {
+        val fileParser = getParser(getResourceAsString("/$filePath")).file()
 
         assertThat(fileParser.entries().entry_info().size).isEqualTo(2)
     }

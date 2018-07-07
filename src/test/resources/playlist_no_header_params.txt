@@ -1,0 +1,5 @@
+#EXTM3U
+#EXTINF:-1, Some name
+http://foobar
+#EXTINF:-1, Some other name
+http://example.com
