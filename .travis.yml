@@ -14,11 +14,23 @@ cache:
 before_deploy:
   - ./gradlew sourceJar
   - ./gradlew generatePomFileForMavenPublication
+  - var1=${TRAVIS_TAG#"release-"};sed -i -- "s/{VERSION}/$var1/g" "bintray.json"
 deploy:
-  provider: bintray
-  file: "bintray.json"
-  user: $BINTRAY_API_USER
-  key: $BINTRAY_API_KEY
-  skip_cleanup: true
-  on:
-    condition: $TRAVIS_TAG = release*
+  - provider: releases
+    api_key: $GITHUB_API_KEY
+    file_glob: true
+    file: build/libs/*
+    skip_cleanup: true
+    jdk: oraclejdk8
+    on:
+      tags: true
+      condition: $TRAVIS_TAG = release-*
+  - provider: bintray
+    file: "bintray.json"
+    user: $BINTRAY_API_USER
+    key: $BINTRAY_API_KEY
+    skip_cleanup: true
+    jdk: oraclejdk8
+    on:
+      tags: true
+      condition: $TRAVIS_TAG = release-*
