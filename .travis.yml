@@ -11,10 +11,21 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+before_script:
+  # take 'whatever' from 'release-whatever'
+  - export PRODUCT_VERSION=${TRAVIS_TAG#"release-"}
+  - if [ "$PRODUCT_VERSION" != "" ]; then sed -i -- "s/NEXT-SNAPSHOT/$PRODUCT_VERSION/g" "build.gradle"; fi
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+after_script:
+  - export JACOCO_SOURCE_PATH="build/generated-src/antlr/main src/main/kotlin"
+  - if [ "$TRAVIS_TEST_RESULT" == "0" ]; then ./cc-test-reporter format-coverage build/reports/jacoco/test/jacocoTestReport.xml --input-type jacoco; fi
+  - if [ "$TRAVIS_TEST_RESULT" == "0" ]; then ./cc-test-reporter upload-coverage; fi
 before_deploy:
   - ./gradlew sourceJar
   - ./gradlew generatePomFileForMavenPublication
-  - var1=${TRAVIS_TAG#"release-"};sed -i -- "s/{VERSION}/$var1/g" "bintray.json"
+  - if [ "$PRODUCT_VERSION" != "" ]; then sed -i -- "s/{VERSION}/$PRODUCT_VERSION/g" "bintray.json"; fi
 deploy:
   - provider: releases
     api_key: $GITHUB_API_KEY

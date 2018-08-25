@@ -17,15 +17,15 @@ class DefaultM3uParser(input: String) : M3uParserWrapper {
 
     override fun getPlaylistEntries(): List<PlaylistEntry> {
         return parser.file().entries().entry_info()
-                .map { createPlaylistEntry(it) }
+            .map { createPlaylistEntry(it) }
     }
 
     private fun createPlaylistEntry(parsedEntry: M3uParser.Entry_infoContext): PlaylistEntry {
         return PlaylistEntry(
-                parsedEntry.enrty_basic_info().entry_name().text.trim(),
-                parsedEntry.enrty_basic_info().entry_uri().text.trim(),
-                parsedEntry.length().text.toInt(),
-                createParameterMap(parsedEntry.parameters().parameter())
+            parsedEntry.enrty_basic_info().entry_name().text.trim(),
+            parsedEntry.enrty_basic_info().entry_uri().text.trim(),
+            parsedEntry.length().text.toInt(),
+            createParameterMap(parsedEntry.parameters().parameter())
         )
     }
 
