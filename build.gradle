@@ -1,16 +1,16 @@
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.60"
-    id "com.gradle.build-scan" version "1.13.1"
+    id "org.jetbrains.kotlin.jvm" version "1.3.21"
+    id "com.gradle.build-scan" version "2.2.1"
 }
 
 group "ru.grushetsky"
 version "NEXT-SNAPSHOT"
 
-ext.kotlin_version = "1.2.60"
-ext.junitPlatformVersion = "1.2.0"
-ext.junitJupiterVersion = "5.2.0"
-ext.antlrVersion = "4.7"
-ext.assertJVersion = "3.9.1"
+ext.kotlin_version = "1.3.21"
+ext.junitPlatformVersion = "1.4.1"
+ext.junitJupiterVersion = "5.4.1"
+ext.antlrVersion = "4.7.2"
+ext.assertJVersion = "3.12.2"
 ext.javaVersion = JavaVersion.VERSION_1_8
 
 test {
@@ -87,19 +87,13 @@ generateGrammarSource {
 
 compileKotlin.dependsOn generateGrammarSource
 
-// earlier versions includes kotlin-generated code into coverage
-// should be removed once plugin will use 0.8.2 by default
-jacoco {
-    toolVersion = "0.8.2"
-}
-
 jacocoTestReport {
     reports {
         xml.enabled = true
         html.enabled = false
     }
     afterEvaluate {
-        classDirectories = files(classDirectories.files.collect {
+        getClassDirectories().setFrom(classDirectories.files.collect {
             fileTree(dir: it, exclude:
                     ['**/M3uParserBaseListener.*',
                      '**/M3uParser$*.*'])
