@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource
 class M3uParserTest {
 
     companion object {
-        const val FREE_TEXT_MODE = 1
+        const val CHANNEL_DESC_MODE = 1
     }
 
     private fun getParser(input: String, initMode: Int = 0): M3uParser {
@@ -48,7 +48,7 @@ class M3uParserTest {
         "\"quoted name\"\nfoo"
     ])
     fun `entry basic info parsed correctly`(entryBasicInfo: String) {
-        val entryNameParser = getParser(entryBasicInfo, FREE_TEXT_MODE).enrty_basic_info()
+        val entryNameParser = getParser(entryBasicInfo, CHANNEL_DESC_MODE).enrty_basic_info()
         val (entryName, entryUri) = entryBasicInfo.split("\n")
 
         assertThat(entryNameParser.entry_name().text).isEqualTo(entryName)
@@ -63,6 +63,15 @@ class M3uParserTest {
         assertThat(entryParser.enrty_basic_info().entry_uri().text).isEqualTo("http://1.2.3.4:1234/udp/4.3.2.1:5678")
         assertThat(entryParser.parameters().parameter().size).isEqualTo(3)
         assertThat(entryParser.length().text).isEqualTo("-1")
+    }
+
+    @Test
+    fun `entry group parsed correctly`() {
+        val entryParser = getParser(getResourceAsString("/entry_with_group.txt")).entry_info()
+
+        assertThat(entryParser.enrty_basic_info().entry_name().text).isEqualTo("Some channel")
+        assertThat(entryParser.enrty_basic_info().group_name().text).isEqualTo("Some group")
+        assertThat(entryParser.enrty_basic_info().entry_uri().text).isEqualTo("http://1.2.3.4:1234/udp/4.3.2.1:5678")
     }
 
     @ParameterizedTest
