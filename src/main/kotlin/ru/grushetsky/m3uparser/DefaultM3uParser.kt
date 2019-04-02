@@ -25,7 +25,7 @@ class DefaultM3uParser(input: String) : M3uParserWrapper {
             parsedEntry.enrty_basic_info().entry_name().text.trim(),
             parsedEntry.enrty_basic_info().entry_uri().text.trim(),
             parsedEntry.length().text.toInt(),
-            parsedEntry.enrty_basic_info().group_name().text.trim(),
+            parsedEntry.enrty_basic_info().group_name()?.text?.trim(),
             createParameterMap(parsedEntry.parameters().parameter())
         )
     }

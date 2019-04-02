@@ -74,6 +74,14 @@ class M3uParserTest {
         assertThat(entryParser.enrty_basic_info().entry_uri().text).isEqualTo("http://1.2.3.4:1234/udp/4.3.2.1:5678")
     }
 
+    @Test
+    fun `comments in entry are ignored`() {
+        val entryParser = getParser(getResourceAsString("/entry_with_comments.txt")).entry_info()
+
+        assertThat(entryParser.enrty_basic_info().entry_name().text).isEqualTo("Channel 1")
+        assertThat(entryParser.enrty_basic_info().entry_uri().text).isEqualTo("hls:http://hls-prefixed-url/")
+    }
+
     @ParameterizedTest
     @CsvSource(
             "header_example.txt, 5",
