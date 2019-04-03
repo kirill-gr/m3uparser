@@ -11,7 +11,7 @@ class DefaultM3uParser(input: String) : M3uParserWrapper {
         parser = M3uParser(CommonTokenStream(m3uLexer))
     }
 
-    override fun getPlaylistParameters(): Map<String, String> {
+    override fun getPlaylistProperties(): Map<String, String> {
         return createParameterMap(parser.file().file_header().parameters().parameter())
     }
 
