@@ -103,4 +103,14 @@ class M3uParserTest {
 
         assertThat(fileParser.entries().entry_info().size).isEqualTo(2)
     }
+
+    @Test
+    fun `entry elements with empty string detected correctly`() {
+        val entryParser = getParser(getResourceAsString("/entry_with_empty_string.txt")).entry_info()
+
+        assertThat(entryParser.enrty_basic_info().entry_name().text).isEqualTo("Channel 1")
+        assertThat(entryParser.enrty_basic_info().entry_uri().text).isEqualTo("http://1.2.3.4:1234/udp/4.3.2.1:5678")
+        assertThat(entryParser.parameters().parameter().size).isEqualTo(4)
+        assertThat(entryParser.length().text).isEqualTo("-1")
+    }
 }
